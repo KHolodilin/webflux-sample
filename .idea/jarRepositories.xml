@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="mmba-maven-lib" />
+      <option name="name" value="mmba-maven-lib" />
+      <option name="url" value="https://nexus-ci.corp.dev.vtb/repository/mmba-maven-lib/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
+      <option name="url" value="https://nexus-ci.corp.dev.vtb/repository/pfomb-maven/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="mmba-maven-snapshot" />
+      <option name="name" value="mmba-maven-snapshot" />
+      <option name="url" value="https://nexus-ci.corp.dev.vtb/repository/mmba-maven-snapshot/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="mmba-maven" />
+      <option name="name" value="mmba-maven" />
+      <option name="url" value="https://nexus-ci.corp.dev.vtb/repository/mmba-maven/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven-global" />
+      <option name="name" value="maven-global" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+  </component>
+</project>
