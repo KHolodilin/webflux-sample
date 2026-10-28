@@ -15,6 +15,13 @@ import reactor.netty.http.client.HttpClient;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Builds the WebClient used to call the consumer.
+ * <p>
+ * Timeouts come from {@link ConsumerProperties}:
+ * connect — how long to wait for the TCP handshake,
+ * read — how long to wait for data after connect (via Netty {@link ReadTimeoutHandler}).
+ */
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
@@ -27,17 +34,16 @@ public class ConsumerConfig {
     @Bean
     @SneakyThrows
     public WebClient webConsumerClient() {
-        log.info("propertiesWebClient: {}", properties);
+        log.info("WebClient to consumer: {}", properties);
 
+        var connection = properties.getConnection();
         var httpClient = HttpClient.create()
-                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, properties.getConnection().getConnectTimeout())
-                //.wiretap(log.isTraceEnabled())
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, connection.getConnectTimeout())
                 .doOnConnected(conn -> conn
-                        .addHandlerLast(new ReadTimeoutHandler(properties.getConnection().getReadTimeout(), TimeUnit.MILLISECONDS)));
-
+                        .addHandlerLast(new ReadTimeoutHandler(connection.getReadTimeout(), TimeUnit.MILLISECONDS)));
 
         return webClientBuilder
-                .baseUrl(properties.getConnection().getUrl())
+                .baseUrl(connection.getUrl())
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
