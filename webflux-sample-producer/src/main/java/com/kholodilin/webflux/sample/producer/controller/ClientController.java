@@ -11,29 +11,38 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * Entry point of the producer service.
+ * <p>
+ * Takes a client count, builds a {@link Client} stream from it,
+ * and streams that stream straight to the consumer via WebClient.
+ */
 @RestController
 @Slf4j
 @RequiredArgsConstructor
 public class ClientController {
     private final ConsumerRepository consumerRepository;
 
+    /**
+     * Generates {@code size} clients and sends them to the consumer.
+     * The response is a {@link ClientResponse} stream (each item arrives as the consumer finishes it).
+     *
+     * @param size how many clients to create (request body is a single number, e.g. {@code 10})
+     */
     @PostMapping(path = "generate")
     public Flux<ClientResponse> generate(@RequestBody Mono<Integer> size) {
-
         return size
-                .flatMapMany(i ->
-                {
-                    log.info("Start generate {} clients", i);
-                    return Flux.range(0, i.intValue());
+                .flatMapMany(count -> {
+                    log.info("Start generate {} clients", count);
+                    return Flux.range(0, count);
                 })
-                .flatMap(integer -> {
-                    var cln = Client
-                            .builder()
-                            .name(integer.toString())
+                .map(index -> {
+                    var client = Client.builder()
+                            .name(index.toString())
                             .build();
-                    log.info("Client build - {}", cln);
-                    return Mono.just(cln);
+                    log.info("Client build - {}", client);
+                    return client;
                 })
-                .transform(clientFlux -> consumerRepository.send(clientFlux));
+                .transform(consumerRepository::send);
     }
 }

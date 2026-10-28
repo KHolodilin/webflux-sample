@@ -5,6 +5,10 @@ import lombok.Data;
 
 import java.util.UUID;
 
+/**
+ * Response for a single client.
+ * {@code client_id} is snake_case to match the JSON field on the producer side.
+ */
 @Data
 @Builder
 public class ClientResponse {
